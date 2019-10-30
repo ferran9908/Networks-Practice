@@ -16,14 +16,14 @@ int main(int argc,char **argv){
     struct sockaddr_in server_addr;
     memset(&server_addr,0,sizeof(server_addr));
     server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(9004);
+    server_addr.sin_port = htons(1234);
     server_addr.sin_family = AF_INET;
     //Create Socket
     int sockfd = socket(AF_INET,SOCK_STREAM,0);
     handle(sockfd,"Socket Error");
     //Connect socket with server
     int handler = connect(sockfd,(struct sockaddr*)&server_addr,sizeof(server_addr));
-    //handle(handler,"Connect Error");
+    handle(handler,"Connect Error");
     printf("%d\n",handler);
     char buff[1024];
     printf("Enter a message to send to server:");

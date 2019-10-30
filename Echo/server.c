@@ -19,7 +19,7 @@ int main(int argc,char **argv){
     struct sockaddr_in server_addr,client_addr;
     memset(&server_addr,0,sizeof(server_addr));
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(9004);
+    server_addr.sin_port = htons(1234);
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
     //Create Socket
@@ -33,24 +33,18 @@ int main(int argc,char **argv){
     //Listen for Incoming Connections
     handler = listen(sockfd,1);
     handle(handler,"Listen Error");
-    int newfd[2];
+    int newfd;
     //Accept Connection
-    for(int i=0;i<2;i++){
     int len = sizeof(client_addr);
-    newfd[i] = accept(sockfd,(struct sockaddr*)&client_addr,&len);
-    handle(newfd,strcat("AcceptError",i));
-    }
+    newfd = accept(sockfd,(struct sockaddr*)&client_addr,&len);
+    handle(newfd,"Accept Error");
+    
 
     //Read from client 
     //int n = read(newfd,buff,sizeof(buff));
 
-    for(int i=0;i<2;i++){
-    n = recv(newfd[i],buff,sizeof(buff),0);
-    if(n!=-1){
-        printf("%s\n",buff);
-        break;
-    }
-    }
+     n = recv(newfd,buff,sizeof(buff),0);
+    printf("%s\n",buff);
     
     close(newfd);
     close(sockfd);
